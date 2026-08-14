@@ -1,46 +1,94 @@
 #!/system/bin/sh
 
-# ============================================================
-# SM8750 Only SoC Checker
-# OPPO / OnePlus / realme SM8750 Universal Kernel
-# Build by TomHjy
-#
-# 仅检测：
-#     Qualcomm SM8750
-#
-# 其他 SoC：
-#     一律拒绝
-# ============================================================
-
-SOC_MODEL="$(getprop ro.soc.model 2>/dev/null)"
+SOC_MODEL="$(getprop ro.soc.model)"
+BOARD_PLATFORM="$(getprop ro.board.platform)"
+DEVICE="$(getprop ro.product.device)"
 
 ui_print " "
-ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-ui_print "          SM8750 SoC 检测"
-ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+ui_print "          Device Soc Verification"
+ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+ui_print " "
+ui_print "Device : $DEVICE"
+ui_print "SoC    : $SOC_MODEL"
+ui_print "Platform: $BOARD_PLATFORM"
+ui_print " "
 
-ui_print "检测到的 SoC：${SOC_MODEL:-Unknown}"
+# ============================================================
+# SoC Verification
+# ============================================================
 
-# 严格匹配 SM8750
-case "$SOC_MODEL" in
-    SM8750)
+SOC=""
+
+case "$SOC_MODEL:$BOARD_PLATFORM" in
+
+    SM8750:*|*:SM8750)
+        SOC="SM8750"
+        ;;
+
+    MT6991:*|*:MT6991)
+        SOC="MT6991"
+        ;;
+
+    *)
+        ui_print "✗ 不支持的 SoC"
         ui_print " "
-        ui_print "✓ Qualcomm MTK SM8750"
-        ui_print "✓ SoC 检测通过"
-        ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        ui_print "当前 SoC: $SOC_MODEL"
+        ui_print "当前平台: $BOARD_PLATFORM"
         ui_print " "
-        exit 0
+        ui_print "支持:"
+        ui_print "  Qualcomm SM8750"
+        ui_print "  MediaTek MT6991"
+        ui_print " "
+        exit 1
         ;;
 esac
 
+ui_print "✓ SoC 验证通过: $SOC"
 ui_print " "
-ui_print "✗ SoC 检测失败"
-ui_print "✗ 当前设备不是 Qualcomm MTK SM8750"
-ui_print " "
-ui_print "当前 SoC：${SOC_MODEL:-Unknown}"
-ui_print " "
-ui_print "此内核仅支持 Qualcomm SM8750。"
-ui_print "为避免设备无法启动，安装已终止。"
-ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-exit 1
+# ============================================================
+# Device Verification
+# ============================================================
+
+case "$SOC" in
+
+    SM8750)
+
+        case "$DEVICE" in
+            PKR110|OP60EBL1)
+                ui_print "✓ 设备验证通过: $DEVICE"
+                ;;
+
+            *)
+                ui_print "非 SM8750 设备不受支持"
+                ui_print "当前设备: $DEVICE"
+                exit 1
+                ;;
+        esac
+
+        ;;
+
+    MT6991)
+
+        case "$DEVICE" in
+            这里填写MT6991支持的机型)
+                ui_print "✓ 设备验证通过: $DEVICE"
+                ;;
+
+            *)
+                ui_print "非 MT6991 设备不受支持"
+                ui_print "当前设备: $DEVICE"
+                exit 1
+                ;;
+        esac
+
+        ;;
+
+esac
+
+ui_print " "
+ui_print "✓ 所有设备验证通过"
+ui_print " "
+
+exit 0
