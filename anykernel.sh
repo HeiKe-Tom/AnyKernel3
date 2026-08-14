@@ -1,5 +1,4 @@
 ### AnyKernel3 Ramdisk Mod Script
-## osm0sis @ xda-developers & GitHub @ Xiaomichael & cctv18
 ## Build by TomHjy
 
 ### AnyKernel setup
