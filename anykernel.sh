@@ -10,7 +10,7 @@ do.systemless=0
 do.cleanup=1
 do.cleanuponabort=0
 
-# OPPO / OnePlus / realme SM8750 Universal
+# OPPO / OnePlus / realme SM8750 / MT6991 Universal
 device.name1=
 device.name2=
 device.name3=
@@ -42,7 +42,7 @@ ui_print " "
 ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 ui_print "          TomHjy Kernel"
 ui_print "    OPPO / OnePlus / realme"
-ui_print "          Qualcomm SM8750"
+ui_print "       SM8750 / MT6991"
 ui_print "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 ui_print " "
 
@@ -50,7 +50,7 @@ ui_print "内核构建者: Coolapk@TomHjy"
 
 
 # ============================================================
-# SM8750 SoC Detection
+# SoC Detection
 # ============================================================
 
 SOC_CHECK="$AKHOME/tools/soc_check.sh"
@@ -72,10 +72,10 @@ ui_print " "
 ui_print "正在检测设备 SoC..."
 
 if ! "$SOC_CHECK"; then
-    abort "设备验证失败：不支持当前 SoC 或机型"
+    abort "SoC 验证失败：仅支持 SM8750 / MT6991"
 fi
 
-ui_print "✓ SoC / 设备验证通过"
+ui_print "✓ SoC 验证通过"
 ui_print " "
 
 
@@ -201,7 +201,7 @@ ui_print "━━━━━━━━━━━━━━━━━━━━━━━�
 ui_print "             安装完成"
 ui_print " "
 ui_print "Kernel : 已安装"
-ui_print "SoC    : SM8750"
+ui_print "SoC    : SM8750 / MT6991"
 ui_print "Target : OPPO / OnePlus / realme"
 ui_print " "
 ui_print "请重启设备使内核生效。"
