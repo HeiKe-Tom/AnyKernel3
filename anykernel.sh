@@ -72,10 +72,10 @@ ui_print " "
 ui_print "正在检测设备 SoC..."
 
 if ! "$SOC_CHECK"; then
-    abort "SoC 检测失败：仅支持 Qualcomm MTK SM8750"
+    abort "设备验证失败：不支持当前 SoC 或机型"
 fi
 
-ui_print "✓ SM8750 SoC 检测通过"
+ui_print "✓ SoC / 设备验证通过"
 ui_print " "
 
 
